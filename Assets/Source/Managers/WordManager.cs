@@ -9,15 +9,21 @@ public class WordManager : MonoBehaviour
     public TextMeshProUGUI outputTextUI;
 
     private string currentText = "";
-    private string lastScoredText = "";
+    private string lastScoredWord = "";
     private LockManager lockManager;
     public TextAsset wordListRaw;
     private HashSet<string> wordList;
+    private HashSet<string> usedWords;
     void Start()
     {
         this.lockManager = GetComponent<LockManager>();
         string[] wordArray = wordListRaw.text.Split('\n');
         wordList = new HashSet<string>(wordArray);
+        lastScoredWord = wordArray[Random.Range(0, wordArray.Length)].ToUpper();
+        outputTextUI.text = lastScoredWord;
+        usedWords = new HashSet<string>();
+        usedWords.Add(lastScoredWord);
+
     }
     void Update()
     {
@@ -64,26 +70,27 @@ public class WordManager : MonoBehaviour
 
     private void ScoreWord()
     {
-        lastScoredText = currentText;
+        lastScoredWord = currentText;
         outputTextUI.text = currentText;
         currentText = "";
         inputTextUI.text = "";
+        usedWords.Add(lastScoredWord);
     }
 
     private bool isChainedLetterMatched()
     {
-        if (lastScoredText.Length <= 0)
+        if (lastScoredWord.Length <= 0)
         {
             return true;
         }
         int lockIndex = lockManager.LockIndex;
-        string lockedLetter = lastScoredText.Substring(lockIndex, 1);
+        string lockedLetter = lastScoredWord.Substring(lockIndex, 1);
         string checkedLetter = currentText.Substring(lockIndex, 1);
         return lockedLetter == checkedLetter;
     }
     private bool IsInWordList()
     {
-        return wordList.Contains(currentText.ToLower());
+        return !usedWords.Contains(currentText) && wordList.Contains(currentText.ToLower());
     }
 
     private string GetInput()
