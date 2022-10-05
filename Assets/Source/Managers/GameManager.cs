@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     private LockManager lockManager;
     private ScoreManager scoreManager;
     public TextMeshProUGUI gameOverTextUI;
+    public TextMeshProUGUI instructionTextUI;
     [TextArea]
     public string startText;
     [TextArea]
@@ -55,6 +56,7 @@ public class GameManager : MonoBehaviour
     public void OnWordScore()
     {
         scoreManager.OnWordScore();
+        instructionTextUI.enabled = false;
     }
 
 }

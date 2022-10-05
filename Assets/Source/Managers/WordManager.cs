@@ -92,6 +92,7 @@ public class WordManager : MonoBehaviour
         outputTextUI.text = lastScoredWord;
         usedWords = new HashSet<string>();
         usedWords.Add(lastScoredWord);
+        ResetWord();
     }
 
     private bool isChainedLetterMatched()
