@@ -38,7 +38,7 @@ public class WordManager : MonoBehaviour
         {
             ValidateWord();
         }
-        else
+        else if (isChainedLetterMatched())
         {
             HandleInput();
         }
@@ -83,6 +83,11 @@ public class WordManager : MonoBehaviour
         {
             newUIText = "<color=red>" + newUIText + "</color>";
         }
+        else if (!isChainedLetterMatched())
+        {
+            int lockIndex = lockManager.LockIndex;
+            newUIText = newUIText.Substring(0, lockIndex) + "<color=red>" + newUIText.Substring(lockIndex, 1) + "</color>";
+        }
         inputTextUI.text = newUIText;
 
     }
@@ -103,15 +108,16 @@ public class WordManager : MonoBehaviour
         usedWords = new HashSet<string>();
         usedWords.Add(lastScoredWord);
         ResetInput();
+        lockManager.RandomizeLock();
     }
 
     private bool isChainedLetterMatched()
     {
-        if (lastScoredWord.Length <= 0)
+        int lockIndex = lockManager.LockIndex;
+        if (currentText.Length <= lockManager.LockIndex)
         {
             return true;
         }
-        int lockIndex = lockManager.LockIndex;
         string lockedLetter = lastScoredWord.Substring(lockIndex, 1);
         string checkedLetter = currentText.Substring(lockIndex, 1);
         return lockedLetter == checkedLetter;
