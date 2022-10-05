@@ -15,17 +15,14 @@ public class WordManager : MonoBehaviour
     public TextAsset wordListRaw;
     private HashSet<string> wordList;
     private HashSet<string> usedWords;
+
+    private string[] wordArray;
     void Start()
     {
         this.lockManager = GetComponent<LockManager>();
         this.gameManager = GetComponent<GameManager>();
-        string[] wordArray = wordListRaw.text.Split('\n');
+        this.wordArray = wordListRaw.text.Split('\n');
         wordList = new HashSet<string>(wordArray);
-        lastScoredWord = wordArray[Random.Range(0, wordArray.Length)].ToUpper();
-        outputTextUI.text = lastScoredWord;
-        usedWords = new HashSet<string>();
-        usedWords.Add(lastScoredWord);
-
     }
     void Update()
     {
@@ -87,6 +84,14 @@ public class WordManager : MonoBehaviour
         inputTextUI.text = "";
         usedWords.Add(lastScoredWord);
         gameManager.OnWordScore();
+    }
+
+    public void Restart()
+    {
+        lastScoredWord = wordArray[Random.Range(0, wordList.Count)].ToUpper();
+        outputTextUI.text = lastScoredWord;
+        usedWords = new HashSet<string>();
+        usedWords.Add(lastScoredWord);
     }
 
     private bool isChainedLetterMatched()

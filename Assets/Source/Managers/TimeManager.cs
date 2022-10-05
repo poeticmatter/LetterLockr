@@ -5,7 +5,7 @@ using TMPro;
 public class TimeManager : MonoBehaviour
 {
 
-    private double timer = 12f;
+    private double timer = 10f;
     public TextMeshProUGUI textUI;
 
     private GameManager gameManager;
