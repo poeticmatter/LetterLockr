@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
         {
             scoreManager.OnShiftScore();
             lockManager.RandomizeLock();
-            wordManager.ResetWord();
+            wordManager.ResetInput();
         }
         else
         {

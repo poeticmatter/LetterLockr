@@ -40,25 +40,25 @@ public class WordManager : MonoBehaviour
         }
         else
         {
-            string input = GetInput();
-            if (input.Length > 0)
-            {
-                OnInput(input);
-            }
+            HandleInput();
         }
-        inputTextUI.text = currentText;
+        UpdateInputUI();
     }
 
     private void OnBackspace()
     {
         if (currentText.Length > 0)
         {
-            currentText = currentText.Substring(0, inputTextUI.text.Length - 1);
+            currentText = currentText.Substring(0, currentText.Length - 1);
         }
     }
-    private void OnInput(string input)
+    private void HandleInput()
     {
-        currentText += input;
+        string input = GetInput();
+        if (input.Length > 0)
+        {
+            currentText += input;
+        }
     }
 
     private void ValidateWord()
@@ -69,18 +69,22 @@ public class WordManager : MonoBehaviour
         }
     }
 
-    public void ResetWord()
+    public void ResetInput()
     {
         currentText = "";
-        inputTextUI.text = "";
+        UpdateInputUI();
+    }
+
+    private void UpdateInputUI()
+    {
+        inputTextUI.text = currentText;
     }
 
     private void ScoreWord()
     {
         lastScoredWord = currentText;
         outputTextUI.text = currentText;
-        currentText = "";
-        inputTextUI.text = "";
+        ResetInput();
         usedWords.Add(lastScoredWord);
         gameManager.OnWordScore();
     }
@@ -91,7 +95,7 @@ public class WordManager : MonoBehaviour
         outputTextUI.text = lastScoredWord;
         usedWords = new HashSet<string>();
         usedWords.Add(lastScoredWord);
-        ResetWord();
+        ResetInput();
     }
 
     private bool isChainedLetterMatched()
