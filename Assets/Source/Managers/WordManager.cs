@@ -77,7 +77,14 @@ public class WordManager : MonoBehaviour
 
     private void UpdateInputUI()
     {
-        inputTextUI.text = currentText;
+
+        string newUIText = currentText;
+        if (currentText.Length >= 5 && !IsInWordList())
+        {
+            newUIText = "<color=red>" + newUIText + "</color>";
+        }
+        inputTextUI.text = newUIText;
+
     }
 
     private void ScoreWord()
