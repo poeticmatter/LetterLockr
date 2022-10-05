@@ -30,9 +30,7 @@ public class GameManager : MonoBehaviour
     {
         if (gameRunning == false && Input.GetKeyDown(KeyCode.Space))
         {
-            gameRunning = true;
-            wordManager.Restart();
-            gameOverTextUI.enabled = false;
+            RestartGame();
 
         }
     }
@@ -41,15 +39,11 @@ public class GameManager : MonoBehaviour
     {
         if (scoreManager.ScoreLeft > 0)
         {
-            scoreManager.OnShiftScore();
-            lockManager.RandomizeLock();
-            wordManager.ResetInput();
+            NextLevel();
         }
         else
         {
-            gameRunning = false;
-            gameOverTextUI.text = gameOverText;
-            gameOverTextUI.enabled = true;
+            GameOver();
         }
     }
 
@@ -57,6 +51,29 @@ public class GameManager : MonoBehaviour
     {
         scoreManager.OnWordScore();
         instructionTextUI.enabled = false;
+    }
+
+    private void NextLevel()
+    {
+        scoreManager.OnShiftScore();
+        lockManager.RandomizeLock();
+        wordManager.ResetInput();
+    }
+
+    private void GameOver()
+    {
+        gameRunning = false;
+        gameOverTextUI.text = gameOverText;
+        gameOverTextUI.enabled = true;
+
+    }
+
+    private void RestartGame()
+    {
+        gameRunning = true;
+        wordManager.Restart();
+        gameOverTextUI.enabled = false;
+        scoreManager.ResetScores();
     }
 
 }

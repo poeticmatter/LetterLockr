@@ -36,4 +36,12 @@ public class ScoreManager : MonoBehaviour
         scoreTotalTextUI.text = scoretotal.ToString();
         scoreRightTextUI.text = scoreRight.ToString();
     }
+
+    public void ResetScores()
+    {
+        scoreLeft = 0;
+        scoreRight = 0;
+        scoretotal = 0;
+        UpdateUI();
+    }
 }
