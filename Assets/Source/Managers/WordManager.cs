@@ -11,12 +11,14 @@ public class WordManager : MonoBehaviour
     private string currentText = "";
     private string lastScoredWord = "";
     private LockManager lockManager;
+    private GameManager gameManager;
     public TextAsset wordListRaw;
     private HashSet<string> wordList;
     private HashSet<string> usedWords;
     void Start()
     {
         this.lockManager = GetComponent<LockManager>();
+        this.gameManager = GetComponent<GameManager>();
         string[] wordArray = wordListRaw.text.Split('\n');
         wordList = new HashSet<string>(wordArray);
         lastScoredWord = wordArray[Random.Range(0, wordArray.Length)].ToUpper();
@@ -27,6 +29,10 @@ public class WordManager : MonoBehaviour
     }
     void Update()
     {
+        if (!gameManager.GameRunning)
+        {
+            return;
+        }
         currentText = inputTextUI.text;
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
@@ -64,8 +70,13 @@ public class WordManager : MonoBehaviour
         if (isChainedLetterMatched() && IsInWordList())
         {
             ScoreWord();
-            lockManager.RandomizeLock();
         }
+    }
+
+    public void ResetWord()
+    {
+        currentText = "";
+        inputTextUI.text = "";
     }
 
     private void ScoreWord()
@@ -75,6 +86,7 @@ public class WordManager : MonoBehaviour
         currentText = "";
         inputTextUI.text = "";
         usedWords.Add(lastScoredWord);
+        gameManager.OnWordScore();
     }
 
     private bool isChainedLetterMatched()

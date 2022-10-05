@@ -5,7 +5,7 @@ using TMPro;
 public class TimeManager : MonoBehaviour
 {
 
-    private double timer = 9.9f;
+    private double timer = 12f;
     public TextMeshProUGUI textUI;
 
     private GameManager gameManager;
@@ -16,13 +16,23 @@ public class TimeManager : MonoBehaviour
 
     void Update()
     {
+        if (!gameManager.GameRunning)
+        {
+            return;
+        }
         timer -= Time.deltaTime;
         if (timer <= 0)
         {
+            textUI.text = "0";
             gameManager.OnTimerOut();
-            timer = 9.9f;
+            timer = 10f;
         }
-        textUI.text = timer.ToString("F1");
+        else
+        {
+            textUI.text = timer.ToString("00.00");
+        }
+
+
     }
 
 
