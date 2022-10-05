@@ -30,7 +30,6 @@ public class WordManager : MonoBehaviour
         {
             return;
         }
-        currentText = inputTextUI.text;
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
             OnBackspace();
