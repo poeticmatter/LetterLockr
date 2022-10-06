@@ -13,6 +13,8 @@ public class ScoreManager : MonoBehaviour
     private int scoreRight = 0;
     private int scoretotal = 0;
 
+    public int ScoreTotal { get; }
+
     public int ScoreLeft { get { return scoreLeft; } }
 
 

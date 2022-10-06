@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public string startText;
     [TextArea]
     public string gameOverText;
+
     void Start()
     {
         wordManager = GetComponent<WordManager>();
@@ -55,6 +56,10 @@ public class GameManager : MonoBehaviour
 
     private void NextLevel()
     {
+        if (lockManager.LockCount <= 1 && scoreManager.ScoreTotal > 100)
+        {
+            lockManager.LockCount++;
+        }
         scoreManager.OnShiftScore();
         lockManager.RandomizeLock();
         wordManager.ResetInput();
