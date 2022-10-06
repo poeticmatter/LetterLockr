@@ -9,7 +9,7 @@ public class LockManager : MonoBehaviour
     private bool[] locks;
 
     private int lockCount = 1;
-    public int LockCount { get; set; }
+    public int LockCount { get { return lockCount; } set { lockCount = value; } }
 
 
     private void UpdateLockUI()

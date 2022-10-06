@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     [TextArea]
     public string gameOverText;
 
+    public int nextLevelScore = 100;
+
     void Start()
     {
         wordManager = GetComponent<WordManager>();
@@ -56,7 +58,8 @@ public class GameManager : MonoBehaviour
 
     private void NextLevel()
     {
-        if (lockManager.LockCount <= 1 && scoreManager.ScoreTotal > 100)
+        Debug.Log(lockManager.LockCount + " " + scoreManager.ScoreTotal);
+        if (lockManager.LockCount <= 1 && scoreManager.ScoreTotal >= nextLevelScore)
         {
             lockManager.LockCount++;
         }
