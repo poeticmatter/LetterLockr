@@ -38,7 +38,7 @@ public class WordManager : MonoBehaviour
         {
             ValidateWord();
         }
-        else if (isChainedLetterMatched())
+        else if (CheckLastLetterMatch())
         {
             HandleInput();
         }
@@ -63,7 +63,7 @@ public class WordManager : MonoBehaviour
 
     private void ValidateWord()
     {
-        if (isChainedLetterMatched() && IsInWordList())
+        if (CheckLastLetterMatch() && IsInWordList())
         {
             ScoreWord();
         }
@@ -83,10 +83,9 @@ public class WordManager : MonoBehaviour
         {
             newUIText = "<color=red>" + newUIText + "</color>";
         }
-        else if (!isChainedLetterMatched())
+        else if (!CheckLastLetterMatch())
         {
-            int lockIndex = lockManager.LockIndex;
-            newUIText = newUIText.Substring(0, lockIndex) + "<color=red>" + newUIText.Substring(lockIndex, 1) + "</color>";
+            newUIText = newUIText.Substring(0, currentText.Length - 1) + "<color=red>" + newUIText.Substring(currentText.Length - 1) + "</color>";
         }
         inputTextUI.text = newUIText;
 
@@ -111,16 +110,16 @@ public class WordManager : MonoBehaviour
         lockManager.RandomizeLock();
     }
 
-    private bool isChainedLetterMatched()
+    private bool CheckLastLetterMatch()
     {
-        int lockIndex = lockManager.LockIndex;
-        if (currentText.Length <= lockManager.LockIndex)
+        if (currentText.Length <= 0 || !lockManager.IsIndexLocked(currentText.Length - 1))
         {
             return true;
         }
-        string lockedLetter = lastScoredWord.Substring(lockIndex, 1);
-        string checkedLetter = currentText.Substring(lockIndex, 1);
-        return lockedLetter == checkedLetter;
+        string lastLetterCurrent = currentText.Substring(currentText.Length - 1);
+        string sameIndexLetterScored = lastScoredWord.Substring(currentText.Length - 1, 1);
+        return lastLetterCurrent == sameIndexLetterScored;
+
     }
     private bool IsInWordList()
     {

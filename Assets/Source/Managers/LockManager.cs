@@ -6,37 +6,70 @@ using UnityEngine.UI;
 public class LockManager : MonoBehaviour
 {
     public Image[] lockImages;
-    private int lockIndex = 0;
-    public int LockIndex
+    private bool[] locks;
+
+    private int lockCount = 1;
+
+
+    private void UpdateLockUI()
     {
-        get { return lockIndex; }
-        set
+        for (int i = 0; i < locks.Length; i++)
         {
-            ValueChanged(lockIndex, value);
-            lockIndex = value;
+            lockImages[i].enabled = locks[i];
         }
-    }
-    private void ValueChanged(int oldV, int newV)
-    {
-        lockImages[oldV].enabled = false;
-        lockImages[newV].enabled = true;
+
     }
 
     public void RandomizeLock()
     {
-        LockIndex = (lockIndex + Random.Range(1, lockImages.Length - 1)) % lockImages.Length;
+        bool[] newLocks = new bool[] { false, false, false, false, false };
+        int randomIndex;
+        while (IsSameArray(newLocks, locks) || CountLocks(newLocks) != lockCount)
+        {
+            randomIndex = Random.Range(0, newLocks.Length);
+            newLocks[randomIndex] = !newLocks[randomIndex];
+        }
+        locks = newLocks;
+        UpdateLockUI();
     }
+
+    private int CountLocks(bool[] test)
+    {
+        int count = 0;
+        for (int i = 0; i < test.Length; i++)
+        {
+            count += test[i] ? 1 : 0;
+        }
+        return count;
+    }
+
+    private bool IsSameArray(bool[] a, bool[] b)
+    {
+        for (int i = 0; i < a.Length; i++)
+        {
+            if (a[i] != b[i])
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public bool IsIndexLocked(int i)
+    {
+        return locks[i];
+    }
+
 
     void Start()
     {
-        LockIndex = Random.Range(0, lockImages.Length);
+        locks = new bool[] { false, false, false, false, false };
+
     }
 
-    /*     void Update () {
-            if (Time.frameCount % 100 == 0) {
-                Debug.Log(lockIndex);
-                RandomizeLock();
-            }
 
-        } */
+    public void addLock()
+    {
+        lockCount++;
+    }
 }

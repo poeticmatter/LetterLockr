@@ -1216,6 +1216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfc8cfd5ce1790d47b22582bccdb342f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timePerRound: 10
   textUI: {fileID: 3528061}
 --- !u!114 &874735328
 MonoBehaviour:

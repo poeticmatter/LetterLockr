@@ -5,13 +5,15 @@ using TMPro;
 public class TimeManager : MonoBehaviour
 {
 
-    private double timer = 10f;
+    public float timePerRound = 10f;
+    private float timer;
     public TextMeshProUGUI textUI;
 
     private GameManager gameManager;
     void Start()
     {
         this.gameManager = GetComponent<GameManager>();
+        timer = timePerRound;
     }
 
     void Update()
@@ -25,7 +27,7 @@ public class TimeManager : MonoBehaviour
         {
             textUI.text = "0";
             gameManager.OnTimerOut();
-            timer = 10f;
+            timer = timePerRound;
         }
         else
         {
